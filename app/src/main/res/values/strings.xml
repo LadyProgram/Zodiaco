@@ -29,5 +29,10 @@
     <string name="horoscope_date_acuario">20 de enero al 18 de febrero </string>
     <string name="horoscope_date_piscis">19 de febrero al 20 de marzo </string>
 
+    <string name="ic_favorito">Favorito </string>
+    <string name="menu_search">Menu de búsqueda </string>
+
+
+
 
 </resources>

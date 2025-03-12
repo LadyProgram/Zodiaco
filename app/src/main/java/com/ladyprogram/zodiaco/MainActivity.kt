@@ -2,6 +2,9 @@ package com.ladyprogram.zodiaco
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    val horoscopeList = Horoscope.horoscopeList
+    var horoscopeList = Horoscope.horoscopeList
 
-
+    lateinit var adapter: HoroscopeAdapter
     lateinit var recyclerView: RecyclerView
 
+    //var selectedPosition = -1
 
 
 
@@ -30,8 +34,10 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+    }
 
-
+    override fun onResume() {
+        super.onResume()
         recyclerView = findViewById(R.id.recyclerView)
 
         val adapter = HoroscopeAdapter(horoscopeList) { position ->
@@ -46,6 +52,36 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
+    }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_activity_main, menu)
+
+        val menuItem = menu?.findItem(R.id.menu_search)
+        val searchView = menuItem?.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                //Log.i("MENU", "He pulsado Enter")
+                return false
+            }
+
+
+            override fun onQueryTextChange(s: String): Boolean {
+                //Log.i("MENU", s)
+                horoscopeList = Horoscope.horoscopeList.filter {
+                    getString(it.name).contains(s, true) ||
+                    getString(it.description).contains(s,true)
+                }
+                adapter.updateItems(horoscopeList, s)
+            }
+                return false
+        }
+    })
+
+    return true
 
     }
 }

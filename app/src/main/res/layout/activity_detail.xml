@@ -8,11 +8,26 @@
     tools:context=".DetailActivity"
     android:gravity="center">
 
+    <ImageView
+        android:id="@+id/iconImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/aries_icon"
+        android:layout_gravity="center"/>
+
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello Conchi"
+        android:textSize="36dp"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello "
         android:textSize="36dp"/>
 
 
