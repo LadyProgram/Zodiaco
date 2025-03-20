@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        adapter = HoroscopeAdapter(horoscopeList) { position ->
+            navigateToDetail(horoscopeList[position])
         }
 
     }
@@ -63,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         val searchView = menuItem?.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 //Log.i("MENU", "He pulsado Enter")
                 return false
             }
@@ -73,15 +77,22 @@ class MainActivity : AppCompatActivity() {
                 //Log.i("MENU", s)
                 horoscopeList = Horoscope.horoscopeList.filter {
                     getString(it.name).contains(s, true) ||
-                    getString(it.description).contains(s,true)
+                    getString(it.dates).contains(s,true)
                 }
                 adapter.updateItems(horoscopeList, s)
-            }
-                return false
+
+                return true
         }
     })
 
     return true
 
     }
+
+    fun navigateToDetail(horoscope: Horoscope) {
+        val intent : Intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_HOROSCOPE_ID,horoscope.id)
+        startActivity(intent)
+    }
+
 }
